@@ -3,7 +3,8 @@
   "type": "module",
   "module": "index.ts",
   "scripts": {
-    "start:echo": "cd echo-server && npx tsx --enable-source-maps socket.ts"
+    "start:echo": "cd echo-server && npx tsx --enable-source-maps socket.ts",
+    "start:newline-proto": "cd protocols && npx tsx --enable-source-maps newline-proto.ts"
   },
   "overrides": {
     "whatwg-url": "13.0.0"

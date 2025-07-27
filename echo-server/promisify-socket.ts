@@ -1,22 +1,10 @@
 import * as net from "net";
+import type { TCPConn } from "../types";
 
-// A promise-based API for TCP sockets.
-type TCPConn = {
-  // the JS socket object
-  socket: net.Socket;
-  // the callbacks of the promise of the current read
-  reader: null | {
-    resolve: (value: Buffer) => void;
-    reject: (reason: Error) => void;
-  };
-  // for the error event
-  error: null | Error;
-  // for EOF from end event
-  ended: boolean;
-};
+
 
 // create a wrapper from net.Socket
-function soInit(socket: net.Socket): TCPConn {
+export function soInit(socket: net.Socket): TCPConn {
   const conn: TCPConn = {
     socket: socket,
     reader: null,
@@ -55,7 +43,7 @@ function soInit(socket: net.Socket): TCPConn {
   return conn;
 }
 
-function soRead(conn: TCPConn): Promise<Buffer> {
+export function soRead(conn: TCPConn): Promise<Buffer> {
   console.assert(!conn.reader); // no concurrent calls
   return new Promise((resolve, reject) => {
     // if the connection is not readable, complete the promise now.
@@ -79,7 +67,7 @@ function soRead(conn: TCPConn): Promise<Buffer> {
   });
 }
 
-function soWrite(conn: TCPConn, data: Buffer): Promise<void> {
+export function soWrite(conn: TCPConn, data: Buffer): Promise<void> {
   console.assert(data.length > 0);
   return new Promise((resolve, reject) => {
     if (conn.error) {
@@ -98,12 +86,12 @@ function soWrite(conn: TCPConn, data: Buffer): Promise<void> {
   });
 }
 
-async function newConn(socket: net.Socket): Promise<void> {
+export async function newConn(socket: net.Socket): Promise<void> {
   console.log("new connection", socket.remoteAddress, socket.remotePort);
   try {
     await serveClient(socket);
-  } catch (exc) {
-    console.error("exception:", exc);
+  } catch (err) {
+    console.error("exception:", err);
   } finally {
     socket.destroy();
   }
