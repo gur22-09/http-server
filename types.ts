@@ -14,3 +14,29 @@ export type TCPConn = {
   // for EOF from end event
   ended: boolean;
 };
+
+export type DynamicBuffer = {
+  data: Buffer;
+  len: number;
+};
+
+export type HTTPReq = {
+  method: string;
+  uri: Buffer;
+  headers: Buffer[]
+  version: string
+}
+
+export type HTTPRes = {
+  code: number;
+  headers: Buffer[];
+  body: BodyReader
+}
+
+// an interface for reading/writing data from/to the HTTP body.
+export type BodyReader = {
+    // the "Content-Length", -1 if unknown.
+    length: number,
+    // read data. returns an empty buffer after EOF.
+    read: () => Promise<Buffer>,
+};
