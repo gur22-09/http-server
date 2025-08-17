@@ -20,8 +20,6 @@ npm run start:newline-proto # Starts a newline-delimited protocol server
 npm run start:http          # Starts the HTTP server (http-1)
 ```
 
-These scripts rely on `tsx` for running TypeScript files directly with source maps enabled.
-
 ## Prerequisites
 
 * Node.js >= 18
